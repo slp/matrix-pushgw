@@ -201,7 +201,7 @@ func handleRegister(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleListen(w http.ResponseWriter, r *http.Request) {
-	logger.debug("handleResgister")
+	logger.debug("handleListen")
 	type ListenRequest struct {
 		DevId string
 	}
@@ -286,11 +286,9 @@ func handlePush(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(d.Pushkey)
 		devToConnMap.RLock()
 		if devConn, ok := devToConnMap.m[d.Pushkey]; ok {
-			devToConnMap.RUnlock()
 			devConn.sendPush()
-		} else {
-			devToConnMap.RUnlock()
 		}
+		devToConnMap.RUnlock()
 	}
 
 	fmt.Println("done")
